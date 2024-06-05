@@ -5,17 +5,17 @@ namespace FinancialManagement.Infra.Data.Migrations
 {
     public static class MigrationRunner
     {
-        public static void RunMigrations(string connectionString)
+        public static void RunMigrations(string? connectionString)
         {
+            ArgumentNullException.ThrowIfNull(connectionString, "Connection String is null");
+
             var serviceProvider = CreateServices(connectionString);
-            using (var scope = serviceProvider.CreateScope())
-            {
-                var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
-                runner.MigrateUp();
-            }
+            using var scope = serviceProvider.CreateScope();
+            var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
+            runner.MigrateUp();
         }
 
-        private static IServiceProvider CreateServices(string connectionString)
+        private static ServiceProvider CreateServices(string connectionString)
         {
             return new ServiceCollection()
                 .AddFluentMigratorCore()
@@ -27,13 +27,12 @@ namespace FinancialManagement.Infra.Data.Migrations
                 .BuildServiceProvider(false);
         }
 
-        public static void RevertMigrations(string connectionString)
+        public static void RevertMigrations(string? connectionString)
         {
+            ArgumentNullException.ThrowIfNull(connectionString, "Connection String is null");
             var serviceProvider = CreateServices(connectionString);
             using var scope = serviceProvider.CreateScope();
             var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
-            // Reverte todas as migrações.
-            // Use o número da versão desejada se quiser reverter para uma versão específica.
             runner.MigrateDown(0);
         }
     }
