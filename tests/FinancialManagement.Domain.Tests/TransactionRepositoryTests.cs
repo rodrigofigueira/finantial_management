@@ -44,7 +44,7 @@ namespace FinancialManagement.Domain.Tests
         {
             //arrange 
             const int ID = 1;
-            const string NAME = null;
+            const string? NAME = null;
             const decimal VALUE = 99.9m;
             const string categoryName = "Category";
             Category category = new(categoryName);
@@ -106,9 +106,10 @@ namespace FinancialManagement.Domain.Tests
             const int ID = 1;
             const string NAME = "Transaction Name";
             const decimal VALUE = 1m;
+            const Category? category = null;
 
             //act and assert
-            var exception = Assert.Throws<DomainExceptionValidation>(() => new Transaction(ID, NAME, VALUE, null));
+            var exception = Assert.Throws<DomainExceptionValidation>(() => new Transaction(ID, NAME, VALUE, category));
             Assert.Equal("Category is required", exception.Message);
         }
 
