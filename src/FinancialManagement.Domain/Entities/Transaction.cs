@@ -13,7 +13,7 @@ namespace FinancialManagement.Domain.Entities
             ValidateDomain(name, value, category);
         }
 
-        public Transaction(int id, string name, decimal value, Category category)
+        public Transaction(int id, string? name, decimal value, Category? category)
         {
             DomainExceptionValidation.When(id < 0,
                                         "Invalid Id value");
@@ -27,15 +27,15 @@ namespace FinancialManagement.Domain.Entities
             ValidateDomain(name, value, category);
         }
 
-        private void ValidateDomain(string name, decimal value, Category category)
+        private void ValidateDomain(string? name, decimal value, Category? category)
         {
             DomainExceptionValidation.When(string.IsNullOrEmpty(name),
                                            "Invalid name, Name is required");
 
-            DomainExceptionValidation.When(name.Length < 3,
+            DomainExceptionValidation.When(name?.Length < 3,
                                            "Invalid name, too short, minimum 3 characters");
 
-            DomainExceptionValidation.When(name.Length > 200,
+            DomainExceptionValidation.When(name?.Length > 200,
                                            "Invalid name, too long, maximum 200 characters");
 
             DomainExceptionValidation.When(value < 0,
