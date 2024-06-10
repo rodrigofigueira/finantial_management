@@ -14,9 +14,11 @@ namespace FinancialManagement.Infra.Data.Migrations
 
         public override void Up()
         {
-            Create.Table(TABLE_NAME)
+            if (!Schema.Table(TABLE_NAME).Exists())
+            {
+                Create.Table(TABLE_NAME)
                   .WithColumn("Id")
-                  .AsInt64()
+                  .AsInt32()
                   .PrimaryKey()
                   .Identity()
 
@@ -29,16 +31,17 @@ namespace FinancialManagement.Infra.Data.Migrations
                   .AsDecimal()
 
                   .WithColumn("IdCategory")
-                  .AsInt64()
+                  .AsInt32()
                   .NotNullable()
 
                   .WithColumn("CreatedAt")
                   .AsDateTime()
                   .WithDefaultValue(DateTime.UtcNow);
 
-            Create.ForeignKey()
-                  .FromTable(TABLE_NAME).ForeignColumn("IdCategory")
-                  .ToTable("categories").PrimaryColumn("Id");
+                Create.ForeignKey()
+                      .FromTable(TABLE_NAME).ForeignColumn("IdCategory")
+                      .ToTable("categories").PrimaryColumn("Id");
+            }
         }
     }
 }
