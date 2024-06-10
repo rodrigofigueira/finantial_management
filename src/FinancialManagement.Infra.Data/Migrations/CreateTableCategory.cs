@@ -1,9 +1,4 @@
 ﻿using FluentMigrator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinancialManagement.Infra.Data.Migrations
 {
@@ -19,20 +14,24 @@ namespace FinancialManagement.Infra.Data.Migrations
 
         public override void Up()
         {
-            Create.Table(TABLE_NAME)
-                  .WithColumn("Id")
-                  .AsInt64()
-                  .PrimaryKey()
-                  .Identity()
+            if (!Schema.Table(TABLE_NAME).Exists())
+            {
+                Create.Table(TABLE_NAME)
+                      .WithColumn("Id")
+                      .AsInt32()
+                      .PrimaryKey()
+                      .Identity()
 
-                  .WithColumn("Name")
-                  .AsString()
-                  .Unique()
-                  .NotNullable()
+                      .WithColumn("Name")
+                      .AsString()
+                      .Unique()
+                      .NotNullable()
 
-                  .WithColumn("CreatedAt")
-                  .AsDateTime()
-                  .WithDefaultValue(DateTime.UtcNow);
+                      .WithColumn("CreatedAt")
+                      .AsDateTime()
+                      .WithDefaultValue(DateTime.UtcNow);
+            }
         }
+        
     }
 }

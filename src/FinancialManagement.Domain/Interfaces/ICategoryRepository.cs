@@ -1,13 +1,14 @@
 ﻿using FinancialManagement.Domain.Entities;
+using FinancialManagement.Domain.Util;
 
 namespace FinancialManagement.Domain.Interfaces
 {
     public interface ICategoryRepository
     {
-        Task<IEnumerable<Category>> GetCategoriesAsync();
-        Task<Category> GetByIdAsync(int id);
-        Task<Category> CreateAsync(Category category);
-        Task<Category> UpdateAsync(Category category);
-        Task<Category> RemoveAsync(int id);
+        Task<Result<IEnumerable<Category>>> GetCategoriesAsync();
+        Task<Result<Category>> GetByIdAsync(int id);
+        Task<Result<Category>> CreateAsync(Category category);
+        Task<bool> UpdateAsync(Category category);
+        Task<bool> RemoveAsync(int id);
     }
 }

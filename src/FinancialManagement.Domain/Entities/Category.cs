@@ -6,7 +6,7 @@ namespace FinancialManagement.Domain.Entities
     {        
         public string? Name { get; private set; }
 
-        public Category(int id, string? name)
+        public Category(int id, string name)
         {
             DomainExceptionValidation.When(id < 0,
                                            "Invalid Id value");

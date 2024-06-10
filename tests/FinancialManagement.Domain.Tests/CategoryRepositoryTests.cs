@@ -51,7 +51,7 @@ namespace FinancialManagement.Domain.Tests
             int ID = 1;
 
             //act and assert
-            var exception = Assert.Throws<DomainExceptionValidation>(() => new Category(ID, NAME));
+            var exception = Assert.Throws<DomainExceptionValidation>(() => new Category(ID, NAME!));
             Assert.Equal("Invalid name, Name is required", exception.Message);
         }
 
