@@ -31,6 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\FinancialManagement.Domain\FinancialManagement.Domain.csproj" />
     <ProjectReference Include="..\..\src\FinancialManagement.Infra.Data\FinancialManagement.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\src\FinancialManagement.Infra.IoC\FinancialManagement.Infra.IoC.csproj" />
   </ItemGroup>
 
   <ItemGroup>
