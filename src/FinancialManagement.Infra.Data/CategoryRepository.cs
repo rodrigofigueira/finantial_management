@@ -1,7 +1,7 @@
-﻿using FinancialManagement.Domain.Entities;
-using FinancialManagement.Domain.Interfaces;
+﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using Dapper;
+using FinancialManagement.Domain.Entities;
+using FinancialManagement.Domain.Interfaces;
 using FinancialManagement.Domain.Util;
 
 namespace FinancialManagement.Infra.Data

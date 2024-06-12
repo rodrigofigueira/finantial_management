@@ -1,37 +1,25 @@
-﻿using FinancialManagement.Domain.Entities;
+﻿using Microsoft.Extensions.DependencyInjection;
+using FinancialManagement.Domain.Entities;
+using FinancialManagement.Domain.Interfaces;
 using FinancialManagement.Infra.Data.Migrations;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 
 namespace FinancialManagement.Infra.Data.Tests
 {
-    public class CategoryRepositoryTests
+    public class CategoryRepositoryTests : BaseTests
     {
-        private readonly string? _connectionString;
-        private readonly IConfiguration _configuration;
-        private readonly SqlConnection con;
-        private readonly CategoryRepository categoryRepository;
+        private readonly ICategoryRepository categoryRepository;
 
         public CategoryRepositoryTests()
         {
-            var configurationBuilder = new ConfigurationBuilder()
-                                        .SetBasePath(AppContext.BaseDirectory)
-                                        .AddJsonFile("appsettings.json", 
-                                                    optional: false, 
-                                                    reloadOnChange: true);
-
-            _configuration = configurationBuilder.Build();
-            _connectionString = _configuration.GetConnectionString("SQLServer");
-            con = new(_connectionString);
-            categoryRepository = new(con);
-            MigrationRunner.RunMigrations(_connectionString);
+            categoryRepository = ServiceProvider.GetRequiredService<ICategoryRepository>();
+            MigrationRunner.RunMigrations(ConnectionString);
         }
 
         [Fact]
         public async void GetByIdAsync_WithValidValue_ReturnObject()
         {
             //arrange
-            Category category = new(GenerateRandomName());
+            Category category = CreateCategoryWithName();
             var resultCreate = await categoryRepository.CreateAsync(category);
 
             //act
@@ -49,7 +37,7 @@ namespace FinancialManagement.Infra.Data.Tests
         public async void CreateAsync_WithValidValue_ReturnObject()
         {
             //arrange
-            Category category = new(GenerateRandomName());
+            Category category = CreateCategoryWithName();
 
             //act
             var resultCreate = await categoryRepository.CreateAsync(category);
@@ -66,7 +54,7 @@ namespace FinancialManagement.Infra.Data.Tests
         public async void RemoveAsync_WithValidValue_ReturnObject()
         {
             //arrange
-            Category category = new(GenerateRandomName());
+            Category category = CreateCategoryWithName();
             var resultCreate = await categoryRepository.CreateAsync(category);
 
             //act
@@ -82,7 +70,7 @@ namespace FinancialManagement.Infra.Data.Tests
         public async void UpdateAsync_WithValidValue_ReturnObject()
         {
             //arrange
-            Category category = new(GenerateRandomName());
+            Category category = CreateCategoryWithName();
             var resultCreate = await categoryRepository.CreateAsync(category);
             Category categoryToUpdate = new(resultCreate.Value.Id
                                             ,GenerateRandomName());
@@ -103,11 +91,11 @@ namespace FinancialManagement.Infra.Data.Tests
         public async void GetCategoriesAsync_WithValidValue_ReturnObject()
         {
             //arrange
-            List<Category> categories = new();
+            List<Category> categories = [];
 
             for (int i = 0; i < 10; i++)
             {
-                var category = new Category(GenerateRandomName());
+                var category = CreateCategoryWithName();
                 var result = await categoryRepository.CreateAsync(category);
                 categories.Add(result.Value);
             }
@@ -127,7 +115,12 @@ namespace FinancialManagement.Infra.Data.Tests
 
         private static string GenerateRandomName()
         {
-            return $"Test {DateTime.Now.ToString("mm:ss:fffff")}";
+            return $"Test {DateTime.Now:mm:ss:fffff}";
+        }
+
+        private static Category CreateCategoryWithName()
+        {
+            return new(GenerateRandomName());
         }
     }
 }
