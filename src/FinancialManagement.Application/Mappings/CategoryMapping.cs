@@ -14,5 +14,10 @@ namespace FinancialManagement.Application.Mappings
         {
             return new(category.Id, category.Name!);
         }
+
+        public static Category ToEntity(this CategoryPostDTO categoryPostDTO)
+        {
+            return new(categoryPostDTO.Name);
+        }
     }
 }
