@@ -37,5 +37,21 @@ namespace FinancialManagement.Application.Tests
             Assert.Equal(category.Name, categoryDTO.Name);
             Assert.Equal(category.Id, categoryDTO.Id);
         }
+
+        [Fact]
+        public void ToEntity_WithPostValidParam_ReturnEntity()
+        {
+            //arrange
+            CategoryPostDTO categoryPostDTO = new("Test");
+
+            //act
+            var category = categoryPostDTO.ToEntity();
+
+            //assert
+            Assert.NotNull(category);
+            Assert.IsType<Category>(category);
+            Assert.Equal(category.Name, categoryPostDTO.Name);
+            Assert.Equal(default, category.Id);
+        }
     }
 }
