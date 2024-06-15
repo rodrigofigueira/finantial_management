@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FinancialManagement.Domain.Interfaces;
 using FinancialManagement.Infra.Data;
+using FinancialManagement.Application.Interfaces;
+using FinancialManagement.Application.Services;
 
 namespace FinancialManagement.Infra.IoC
 {
@@ -17,6 +19,8 @@ namespace FinancialManagement.Infra.IoC
                 return new SqlConnection(connectionString);
             });
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
 
             return services;
         }
