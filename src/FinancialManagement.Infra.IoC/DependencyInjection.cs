@@ -5,6 +5,8 @@ using FinancialManagement.Domain.Interfaces;
 using FinancialManagement.Infra.Data;
 using FinancialManagement.Application.Interfaces;
 using FinancialManagement.Application.Services;
+using FluentValidation;
+using FinancialManagement.Application.Validators;
 
 namespace FinancialManagement.Infra.IoC
 {
@@ -22,6 +24,12 @@ namespace FinancialManagement.Infra.IoC
 
             services.AddScoped<ICategoryService, CategoryService>();
 
+            return services;
+        }
+
+        public static IServiceCollection AddFluentValidator(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssemblyContaining<CreateCategoryValidator>();
             return services;
         }
     }
