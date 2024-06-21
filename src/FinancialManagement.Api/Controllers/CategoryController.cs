@@ -27,5 +27,18 @@ namespace FinancialManagement.Api.Controllers
             return BadRequest(result.Error);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var result = await categoryService.RemoveAsync(id);
+
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Category was not deleted");
+        }
+
     }
 }

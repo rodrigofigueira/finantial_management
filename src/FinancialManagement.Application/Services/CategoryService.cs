@@ -35,9 +35,10 @@ namespace FinancialManagement.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> RemoveAsync(int id)
+        public async Task<bool> RemoveAsync(int id)
         {
-            throw new NotImplementedException();
+            var removed = await _categoryRepository.RemoveAsync(id);
+            return removed;
         }
 
         public Task<bool> UpdateAsync(CategoryDTO category)
