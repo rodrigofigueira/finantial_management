@@ -40,5 +40,18 @@ namespace FinancialManagement.Api.Controllers
             return BadRequest("Category was not deleted");
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var result = await categoryService.GetByIdAsync(id);
+
+            if (result.IsFailure)
+            {
+                return NotFound(result.Error);
+            }
+
+            return Ok(result.Value);
+        }
+
     }
 }

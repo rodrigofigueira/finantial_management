@@ -25,9 +25,17 @@ namespace FinancialManagement.Application.Services
             return Result<CategoryDTO>.Success(categoryToReturn);
         }
 
-        public Task<Result<CategoryDTO>> GetByIdAsync(int id)
+        public async Task<Result<CategoryDTO>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _categoryRepository.GetByIdAsync(id);
+
+            if (result.IsFailure)
+            {
+                return Result<CategoryDTO>.Failure("Category was not found");
+            }
+
+            CategoryDTO categoryDTO = result.Value.ToDTO();
+            return Result<CategoryDTO>.Success(categoryDTO);
         }
 
         public Task<Result<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
