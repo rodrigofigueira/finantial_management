@@ -66,7 +66,6 @@ namespace FinancialManagement.Api.Controllers
             return Ok(result.Value);
         }
 
-        //todo: change CategoryDTO for CategoryUpdateDTO and create a validation 
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] CategoryPutDTO category)
         {
