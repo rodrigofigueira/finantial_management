@@ -68,7 +68,7 @@ namespace FinancialManagement.Api.Controllers
 
         //todo: change CategoryDTO for CategoryUpdateDTO and create a validation 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] CategoryDTO category)
+        public async Task<IActionResult> Put([FromBody] CategoryPutDTO category)
         {
             var wasUpdated = await categoryService.UpdateAsync(category);
 
