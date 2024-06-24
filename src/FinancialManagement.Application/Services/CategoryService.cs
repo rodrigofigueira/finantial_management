@@ -57,7 +57,7 @@ namespace FinancialManagement.Application.Services
             return removed;
         }
 
-        public async Task<bool> UpdateAsync(CategoryDTO category)
+        public async Task<bool> UpdateAsync(CategoryPutDTO category)
         {
             var categoryEntity = category.ToEntity();
             var wasUpdated = await _categoryRepository.UpdateAsync(categoryEntity);
