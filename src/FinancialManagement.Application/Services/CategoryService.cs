@@ -38,9 +38,17 @@ namespace FinancialManagement.Application.Services
             return Result<CategoryDTO>.Success(categoryDTO);
         }
 
-        public Task<Result<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
+        public async Task<Result<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
         {
-            throw new NotImplementedException();
+            var result = await _categoryRepository.GetCategoriesAsync();
+
+            if (result.IsFailure)
+            {
+                return Result<IEnumerable<CategoryDTO>>.Failure("Category was not found");
+            }
+
+            var categoriesDTO = result.Value.ToListDTO();
+            return Result<IEnumerable<CategoryDTO>>.Success(categoriesDTO);
         }
 
         public async Task<bool> RemoveAsync(int id)
@@ -49,9 +57,11 @@ namespace FinancialManagement.Application.Services
             return removed;
         }
 
-        public Task<bool> UpdateAsync(CategoryDTO category)
+        public async Task<bool> UpdateAsync(CategoryDTO category)
         {
-            throw new NotImplementedException();
+            var categoryEntity = category.ToEntity();
+            var wasUpdated = await _categoryRepository.UpdateAsync(categoryEntity);
+            return wasUpdated;
         }
     }
 }

@@ -53,5 +53,30 @@ namespace FinancialManagement.Api.Controllers
             return Ok(result.Value);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var result = await categoryService.GetCategoriesAsync();
+
+            if (result.IsFailure)
+            {
+                return NotFound(result.Error);
+            }
+
+            return Ok(result.Value);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] CategoryDTO category)
+        {
+            var wasUpdated = await categoryService.UpdateAsync(category);
+
+            if (wasUpdated)
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Category was not updated");
+        }
     }
 }

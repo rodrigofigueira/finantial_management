@@ -53,5 +53,18 @@ namespace FinancialManagement.Application.Tests
             Assert.Equal(category.Name, categoryPostDTO.Name);
             Assert.Equal(default, category.Id);
         }
+
+        [Fact]
+        public void ToListDTO_WithValidParams_ReturnListOfDTOs()
+        {
+            //arrange
+            List<Category> categories = [new("test1"), new("test2")];
+
+            //act
+            var listOfDtos = categories.ToListDTO();
+
+            //assert
+            Assert.NotNull(listOfDtos);
+        }
     }
 }
