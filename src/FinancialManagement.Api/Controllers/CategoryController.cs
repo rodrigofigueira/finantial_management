@@ -2,6 +2,7 @@
 using FinancialManagement.Application.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinancialManagement.Api.Controllers
 {
@@ -67,8 +68,16 @@ namespace FinancialManagement.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] CategoryPutDTO category)
+        public async Task<IActionResult> Put([FromBody] CategoryPutDTO category,
+                                             [FromServices] IValidator<CategoryPutDTO> validator)
         {
+            var validation = validator.Validate(category);
+
+            if (validation.IsValid is false)
+            {
+                return BadRequest(validation.Errors.Select(e => e.ErrorMessage));
+            }
+
             var wasUpdated = await categoryService.UpdateAsync(category);
 
             if (wasUpdated)
