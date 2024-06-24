@@ -19,5 +19,10 @@ namespace FinancialManagement.Application.Mappings
         {
             return new(categoryPostDTO.Name);
         }
+
+        public static IEnumerable<CategoryDTO> ToListDTO(this IEnumerable<Category> categories)
+        {
+            return categories.Select(x => x.ToDTO());
+        }
     }
 }
