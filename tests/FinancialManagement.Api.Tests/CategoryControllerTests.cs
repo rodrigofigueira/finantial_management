@@ -21,7 +21,7 @@ namespace FinancialManagement.Api.Tests
                     Result<CategoryDTO>.Success(new CategoryDTO(1, categoryPostDTO.Name)));
 
             Mock<IValidator<CategoryPostDTO>> validatorMock = new();
-            validatorMock.Setup(v => v.Validate(It.IsAny<CategoryPostDTO>())).Returns(new FluentValidation.Results.ValidationResult());
+            validatorMock.Setup(v => v.Validate(It.IsAny<CategoryPostDTO>())).Returns(new ValidationResult());
 
             CategoryController categoryController = new(categoryServiceMock.Object);
             CategoryPostDTO categoryPostDTO = new("Test");
@@ -172,5 +172,49 @@ namespace FinancialManagement.Api.Tests
             Assert.Equal(404, notFoundContentResult.StatusCode);
             Assert.Equal("Not found", notFoundContentResult.Value);
         }
+
+        [Fact]
+        public async Task Put_WithValidParameters_ReturnNoContent()
+        {
+            //arrange
+            Mock<ICategoryService> categoryServiceMock = new();
+            categoryServiceMock.Setup(c => c.UpdateAsync(It.IsAny<CategoryPutDTO>()))
+                                            .ReturnsAsync(true);
+
+            Mock<IValidator<CategoryPutDTO>> validatorMock = new();
+            validatorMock.Setup(v => v.Validate(It.IsAny<CategoryPutDTO>())).Returns(new ValidationResult());
+
+
+            CategoryController categoryController = new(categoryServiceMock.Object);
+            CategoryPutDTO categoryPutDTO = new(1, "Test");
+
+            //act
+            var result = await categoryController.Put(categoryPutDTO, validatorMock.Object);
+
+            //assert
+            var noContentResult = Assert.IsType<NoContentResult>(result);
+            Assert.Equal(204, noContentResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task Put_WithInvalidParameters_ReturnBadRequest()
+        {
+            //arrange
+            List<ValidationFailure> validations = [new("Name", "Some error about name")];
+            ValidationResult validationResult = new(validations);
+
+            Mock<IValidator<CategoryPutDTO>> validatorMock = new();
+            validatorMock.Setup(v => v.Validate(It.IsAny<CategoryPutDTO>())).Returns(validationResult);
+
+            CategoryController categoryController = new(null!);
+
+            //act
+            var result = await categoryController.Put(null!, validatorMock.Object);
+
+            //assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(400, badRequestResult.StatusCode);
+        }
+
     }
 }
