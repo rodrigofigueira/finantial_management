@@ -1,9 +1,13 @@
+using FinancialManagement.Infra.Data.Migrations;
 using FinancialManagement.Infra.IoC;
 
 IConfiguration configuration = new ConfigurationBuilder()
                             .SetBasePath(AppContext.BaseDirectory)
                             .AddJsonFile("appsettings.json")
                             .Build();
+
+string connectionString = configuration.GetConnectionString("SQLServer")
+                            ?? throw new ArgumentException("Connection String was not found!");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddFluentValidator();
+
+MigrationRunner.RunMigrations(connectionString);
 
 var app = builder.Build();
 
