@@ -1,0 +1,10 @@
+﻿global using FinancialManagement.Application.DTOs;
+global using FinancialManagement.Application.Mappings;
+global using FinancialManagement.Application.Services;
+global using FinancialManagement.Domain.Entities;
+global using FinancialManagement.Domain.Interfaces;
+global using FinancialManagement.Domain.Util;
+global using FinancialManagement.Infra.IoC;
+global using FluentValidation;
+global using Microsoft.Extensions.DependencyInjection;
+global using Moq;
