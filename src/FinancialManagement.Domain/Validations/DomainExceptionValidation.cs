@@ -1,11 +1,10 @@
-﻿namespace FinancialManagement.Domain.Validations
+﻿namespace FinancialManagement.Domain.Validations;
+
+public class DomainExceptionValidation(string error) : Exception(error)
 {
-    public class DomainExceptionValidation(string error) : Exception(error) 
+    public static void When(bool hasError, string error)
     {
-        public static void When(bool hasError, string error)
-        {
-            if(hasError)
-                throw new DomainExceptionValidation(error);
-        }
+        if (hasError)
+            throw new DomainExceptionValidation(error);
     }
 }
