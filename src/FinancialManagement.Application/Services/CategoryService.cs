@@ -1,67 +1,59 @@
-﻿using FinancialManagement.Application.DTOs;
-using FinancialManagement.Application.Interfaces;
-using FinancialManagement.Application.Mappings;
-using FinancialManagement.Domain.Entities;
-using FinancialManagement.Domain.Interfaces;
-using FinancialManagement.Domain.Util;
+﻿namespace FinancialManagement.Application.Services;
 
-namespace FinancialManagement.Application.Services
+public class CategoryService(ICategoryRepository categoryRepository) : ICategoryService
 {
-    public class CategoryService(ICategoryRepository categoryRepository) : ICategoryService
+    private readonly ICategoryRepository _categoryRepository = categoryRepository;
+
+    public async Task<Result<CategoryDTO>> CreateAsync(CategoryPostDTO categoryPostDTO)
     {
-        private readonly ICategoryRepository _categoryRepository = categoryRepository;
+        Category category = categoryPostDTO.ToEntity();
+        var result = await _categoryRepository.CreateAsync(category);
 
-        public async Task<Result<CategoryDTO>> CreateAsync(CategoryPostDTO categoryPostDTO)
+        if (result.IsFailure)
         {
-            Category category = categoryPostDTO.ToEntity();
-            var result = await _categoryRepository.CreateAsync(category);
-
-            if (result.IsFailure)
-            {
-                return Result<CategoryDTO>.Failure("Category creation failed");
-            }
-
-            CategoryDTO categoryToReturn = result.Value.ToDTO();
-            return Result<CategoryDTO>.Success(categoryToReturn);
+            return Result<CategoryDTO>.Failure("Category creation failed");
         }
 
-        public async Task<Result<CategoryDTO>> GetByIdAsync(int id)
+        CategoryDTO categoryToReturn = result.Value.ToDTO();
+        return Result<CategoryDTO>.Success(categoryToReturn);
+    }
+
+    public async Task<Result<CategoryDTO>> GetByIdAsync(int id)
+    {
+        var result = await _categoryRepository.GetByIdAsync(id);
+
+        if (result.IsFailure)
         {
-            var result = await _categoryRepository.GetByIdAsync(id);
-
-            if (result.IsFailure)
-            {
-                return Result<CategoryDTO>.Failure("Category was not found");
-            }
-
-            CategoryDTO categoryDTO = result.Value.ToDTO();
-            return Result<CategoryDTO>.Success(categoryDTO);
+            return Result<CategoryDTO>.Failure("Category was not found");
         }
 
-        public async Task<Result<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
+        CategoryDTO categoryDTO = result.Value.ToDTO();
+        return Result<CategoryDTO>.Success(categoryDTO);
+    }
+
+    public async Task<Result<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
+    {
+        var result = await _categoryRepository.GetCategoriesAsync();
+
+        if (result.IsFailure)
         {
-            var result = await _categoryRepository.GetCategoriesAsync();
-
-            if (result.IsFailure)
-            {
-                return Result<IEnumerable<CategoryDTO>>.Failure("Category was not found");
-            }
-
-            var categoriesDTO = result.Value.ToListDTO();
-            return Result<IEnumerable<CategoryDTO>>.Success(categoriesDTO);
+            return Result<IEnumerable<CategoryDTO>>.Failure("Category was not found");
         }
 
-        public async Task<bool> RemoveAsync(int id)
-        {
-            var removed = await _categoryRepository.RemoveAsync(id);
-            return removed;
-        }
+        var categoriesDTO = result.Value.ToListDTO();
+        return Result<IEnumerable<CategoryDTO>>.Success(categoriesDTO);
+    }
 
-        public async Task<bool> UpdateAsync(CategoryPutDTO category)
-        {
-            var categoryEntity = category.ToEntity();
-            var wasUpdated = await _categoryRepository.UpdateAsync(categoryEntity);
-            return wasUpdated;
-        }
+    public async Task<bool> RemoveAsync(int id)
+    {
+        var removed = await _categoryRepository.RemoveAsync(id);
+        return removed;
+    }
+
+    public async Task<bool> UpdateAsync(CategoryPutDTO category)
+    {
+        var categoryEntity = category.ToEntity();
+        var wasUpdated = await _categoryRepository.UpdateAsync(categoryEntity);
+        return wasUpdated;
     }
 }
