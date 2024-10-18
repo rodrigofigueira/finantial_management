@@ -1,0 +1,9 @@
+﻿global using FinancialManagement.Application.Interfaces;
+global using FinancialManagement.Application.Services;
+global using FinancialManagement.Application.Validators;
+global using FinancialManagement.Domain.Interfaces;
+global using FinancialManagement.Infra.Data;
+global using FluentValidation;
+global using Microsoft.Data.SqlClient;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
