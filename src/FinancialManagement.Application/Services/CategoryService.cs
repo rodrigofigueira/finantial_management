@@ -44,16 +44,11 @@ public class CategoryService(ICategoryRepository categoryRepository) : ICategory
         return Result<IEnumerable<CategoryDTO>>.Success(categoriesDTO);
     }
 
-    public async Task<bool> RemoveAsync(int id)
-    {
-        var removed = await _categoryRepository.RemoveAsync(id);
-        return removed;
-    }
+    public async Task<bool> RemoveAsync(int id) => await _categoryRepository.RemoveAsync(id);
 
     public async Task<bool> UpdateAsync(CategoryPutDTO category)
     {
         var categoryEntity = category.ToEntity();
-        var wasUpdated = await _categoryRepository.UpdateAsync(categoryEntity);
-        return wasUpdated;
+        return await _categoryRepository.UpdateAsync(categoryEntity);
     }
 }
