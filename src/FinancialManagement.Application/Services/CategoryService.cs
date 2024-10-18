@@ -2,12 +2,10 @@
 
 public class CategoryService(ICategoryRepository categoryRepository) : ICategoryService
 {
-    private readonly ICategoryRepository _categoryRepository = categoryRepository;
-
     public async Task<Result<CategoryDTO>> CreateAsync(CategoryPostDTO categoryPostDTO)
     {
         Category category = categoryPostDTO.ToEntity();
-        var result = await _categoryRepository.CreateAsync(category);
+        var result = await categoryRepository.CreateAsync(category);
 
         if (result.IsFailure)
         {
@@ -20,7 +18,7 @@ public class CategoryService(ICategoryRepository categoryRepository) : ICategory
 
     public async Task<Result<CategoryDTO>> GetByIdAsync(int id)
     {
-        var result = await _categoryRepository.GetByIdAsync(id);
+        var result = await categoryRepository.GetByIdAsync(id);
 
         if (result.IsFailure)
         {
@@ -33,7 +31,7 @@ public class CategoryService(ICategoryRepository categoryRepository) : ICategory
 
     public async Task<Result<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
     {
-        var result = await _categoryRepository.GetCategoriesAsync();
+        var result = await categoryRepository.GetCategoriesAsync();
 
         if (result.IsFailure)
         {
@@ -44,11 +42,11 @@ public class CategoryService(ICategoryRepository categoryRepository) : ICategory
         return Result<IEnumerable<CategoryDTO>>.Success(categoriesDTO);
     }
 
-    public async Task<bool> RemoveAsync(int id) => await _categoryRepository.RemoveAsync(id);
+    public async Task<bool> RemoveAsync(int id) => await categoryRepository.RemoveAsync(id);
 
     public async Task<bool> UpdateAsync(CategoryPutDTO category)
     {
         var categoryEntity = category.ToEntity();
-        return await _categoryRepository.UpdateAsync(categoryEntity);
+        return await categoryRepository.UpdateAsync(categoryEntity);
     }
 }
