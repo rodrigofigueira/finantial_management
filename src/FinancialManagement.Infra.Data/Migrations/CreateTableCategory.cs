@@ -5,10 +5,7 @@ public class CreateTableCategory : Migration
 {
     readonly string TABLE_NAME = "categories";
 
-    public override void Down()
-    {
-        Delete.Table(TABLE_NAME);
-    }
+    public override void Down() => Delete.Table(TABLE_NAME);
 
     public override void Up()
     {

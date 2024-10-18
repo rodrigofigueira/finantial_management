@@ -5,10 +5,7 @@ public class CreateTableTransaction : Migration
 {
     readonly string TABLE_NAME = "transactions";
 
-    public override void Down()
-    {
-        Delete.Table(TABLE_NAME);
-    }
+    public override void Down() => Delete.Table(TABLE_NAME);
 
     public override void Up()
     {
