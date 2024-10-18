@@ -1,6 +1,3 @@
-using FinancialManagement.Infra.Data.Migrations;
-using FinancialManagement.Infra.IoC;
-
 IConfiguration configuration = new ConfigurationBuilder()
                             .SetBasePath(AppContext.BaseDirectory)
                             .AddJsonFile("appsettings.json")
