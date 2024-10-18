@@ -1,14 +1,11 @@
-﻿using Microsoft.Data.SqlClient;
+﻿namespace FinancialManagement.Infra.Data;
 
-namespace FinancialManagement.Infra.Data
+public class BaseRepository
 {
-    public class BaseRepository
+    protected readonly SqlConnection _connection;
+
+    protected BaseRepository(SqlConnection sqlConnection)
     {
-        protected readonly SqlConnection _connection;
-        
-        protected BaseRepository(SqlConnection sqlConnection)
-        {
-            _connection = sqlConnection;
-        }
+        _connection = sqlConnection;
     }
 }
