@@ -14,11 +14,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddFluentValidator();
 
-MigrationRunner.RunMigrations(connectionString);
+await SetupDatabase.Execute(connectionString);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

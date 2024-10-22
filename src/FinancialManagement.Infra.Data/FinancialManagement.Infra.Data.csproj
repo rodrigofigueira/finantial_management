@@ -25,4 +25,10 @@
     <ProjectReference Include="..\FinancialManagement.Domain\FinancialManagement.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Scripts\CreateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

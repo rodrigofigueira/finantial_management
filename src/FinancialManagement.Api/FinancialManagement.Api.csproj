@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -14,6 +14,12 @@
     <ProjectReference Include="..\FinancialManagement.Application\FinancialManagement.Application.csproj" />
     <ProjectReference Include="..\FinancialManagement.Domain\FinancialManagement.Domain.csproj" />
     <ProjectReference Include="..\FinancialManagement.Infra.IoC\FinancialManagement.Infra.IoC.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Scripts\CreateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
